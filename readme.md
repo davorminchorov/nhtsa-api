@@ -1,58 +1,162 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# NHTSA API 
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Installation
 
-## About Laravel
+Install [Git](https://git-scm.com/) on your operating system.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+After the installation run the following command to see if Git is installed properly:
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+```
+git
+```
 
-## Learning Laravel
+Clone the project from the GitHub repository by running the following command in the terminal
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+```
+git clone https://github.com/davorminchorov/nhtsa-api.git
+```
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+Enter the directory with
 
-## Laravel Sponsors
+```
+cd nhtsa-api
+```
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
+Server Requirements: 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Pulse Storm](http://www.pulsestorm.net/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
+- PHP >= 7.1.0
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Mbstring PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+- BCMath PHP Extension
+- GD PHP Extension
+- Zip PHP Extension
+- MCrypt PHP Extension
+- MySQL (optional)
+- Redis (optional)
+- NGINX
+- [Composer](https://getcomposer.org/)
+- [Git](https://git-scm.com/)
 
-## Contributing
+## Using Docker
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+This project has a docker development environment ready which you can easily set up the project on your local machine by installing [Docker Community Edition](https://docs.docker.com/engine/installation/) and [Docker Compose](https://docs.docker.com/compose/install/) for the operating system you are using.
 
-## Security Vulnerabilities
+After installing Docker CE and Docker Compose, run the following commands to see if everything was installed properly:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
+docker
+docker-compose
+```
 
-## License
+Run the following command to build the project:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+```
+docker-compose build
+```
+
+This command will install everything that the project needs.
+
+After the build is complete, run the following command to start the docker containers:
+
+```
+docker-compose up -d
+```
+
+To enter the PHP FPM container, you need to run the following command:
+
+```
+docker exec -it nhtsaapi_phpfpm_1 bash
+```
+
+
+Run the following command if you want to stop the docker containers:
+
+```
+docker-compose stop
+```
+
+If you want to see the status of the docker containers, run the following command:
+
+```
+docker-compose ps
+```
+
+NOTE: Depending on the way you installed Docker CE and Docker Compose, you may need to run the `docker` and `docker-compose` commands with `sudo` as a prefix 
+
+Install the Composer dependencies by running:
+
+```
+composer install
+```
+
+Copy the file .env.example as .env and use it as a starting point for your local development environment. You have to set it up yourself based on the environment you are using.
+
+You can run the following command to copy the .env.example to .env:
+
+```
+cp .env.example .env
+```
+
+Run the following command to generate an application key:
+
+```
+php artisan key:generate
+```
+
+You may also need to give permissions to the `storage` folder by running:
+
+```
+chmod -R 0777 storage
+```
+
+Open the project in your browser by going to: 
+
+```
+http://localhost:8080/
+```
+
+## Without Docker
+
+After installing everything listed from the `Server Requirements` section continue following the instructions below.
+
+Install the Composer dependencies by running:
+
+```
+composer install
+```
+
+Copy the file .env.example as .env and use it as a starting point for your local development environment. You have to set it up yourself based on the environment you are using.
+
+You can run the following command to copy the .env.example to .env:
+
+```
+cp .env.example .env
+```
+
+Run the following command to generate an application key:
+
+```
+php artisan key:generate
+```
+
+You may also need to give permissions to the storage folder by running:
+
+```
+chmod -R 0777 storage
+```
+
+`OPTIONAL:` You could also use the PHP built-in server which Laravel has a command by running:
+
+```
+php artisan serve --port=8080
+```
+
+Open the project in your browser by going to: 
+
+```
+http://localhost:8080/
+```
