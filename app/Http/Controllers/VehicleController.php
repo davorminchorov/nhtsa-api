@@ -30,7 +30,7 @@ class VehicleController extends Controller
     }
 
     /**
-     * Show a list of vehicles by specific model year, manufacturer and model.
+     * Show a list of vehicles by specific model year, manufacturer and model with or without overall rating.
      *
      * @param Request $request
      * @param $modelYear
@@ -41,14 +41,13 @@ class VehicleController extends Controller
      */
     public function index(Request $request, $modelYear = null, $manufacturer = null, $model = null)
     {
-
         $vehicles = $this->vehicleFilters->getVehicles(collect(
             array_merge([
                 'modelYear' => (int) $modelYear,
                 'manufacturer' => $manufacturer,
                 'model' => $model,
             ], $request->only(['modelYear', 'manufacturer', 'model']))
-        ));
+        ), $request->get('withRating') === 'true');
 
         return new VehicleCollectionResource($vehicles);
     }

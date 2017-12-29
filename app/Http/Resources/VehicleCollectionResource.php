@@ -14,8 +14,7 @@ class VehicleCollectionResource extends ResourceCollection
      */
     public function toArray($request)
     {
-
-        if (! $this->get('Count') || ! array_has($this->get('Results'), ['VehicleDescription'])) {
+       if (! $this->get('Count') || ! array_get(array_first($this->get('Results')), 'VehicleDescription')) {
             return [
                 'Count' => 0,
                 'Results' => [],
@@ -24,12 +23,20 @@ class VehicleCollectionResource extends ResourceCollection
 
         return [
             'Count' => $this->get('Count'),
-            'Results' => collect($this->get('Results'))->map(function ($vehicle) {
-                return [
-                    'Description' => $vehicle['VehicleDescription'],
-                    'VehicleId' => $vehicle['VehicleId'],
+            'Results' => collect($this->get('Results'))->map(function ($vehicle, $index) {
+                $results = [
+                    'Description' => array_get($vehicle, 'VehicleDescription'),
+                    'VehicleId' => array_get($vehicle, 'VehicleId'),
                 ];
-            })->filter(),
+
+                if ($this->get('CrashRatings')) {
+                    return array_merge($results, [
+                        'CrashRating' => array_first(array_flatten(array_get($this->get('CrashRatings'), $index))),
+                    ]);
+                }
+
+                return $results;
+            }),
         ];
     }
 }
