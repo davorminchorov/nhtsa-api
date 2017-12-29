@@ -15,7 +15,7 @@ class VehicleCollectionResource extends ResourceCollection
     public function toArray($request)
     {
 
-        if (! $this->get('Count')) {
+        if (! $this->get('Count') || ! array_has($this->get('Results'), ['VehicleDescription'])) {
             return [
                 'Count' => 0,
                 'Results' => [],
@@ -29,7 +29,7 @@ class VehicleCollectionResource extends ResourceCollection
                     'Description' => $vehicle['VehicleDescription'],
                     'VehicleId' => $vehicle['VehicleId'],
                 ];
-            }),
+            })->filter(),
         ];
     }
 }

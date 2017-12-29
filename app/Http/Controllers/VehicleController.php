@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Filters\VehicleFilters;
+use App\Http\Requests\CreateNewVehicleRequest;
 use App\Http\Resources\VehicleCollectionResource;
+use App\Http\Resources\VehicleResource;
 use App\Http\Transformers\VehicleTransformer;
+use App\Services\VehicleCreator;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
@@ -36,13 +39,16 @@ class VehicleController extends Controller
      *
      * @return VehicleCollectionResource
      */
-    public function index(Request $request, $modelYear, $manufacturer, $model)
+    public function index(Request $request, $modelYear = null, $manufacturer = null, $model = null)
     {
-        $vehicles = $this->vehicleFilters->getVehicles(collect([
-            'modelYear' => $modelYear,
-            'manufacturer' => $manufacturer,
-            'model' => $model,
-        ]));
+
+        $vehicles = $this->vehicleFilters->getVehicles(collect(
+            array_merge([
+                'modelYear' => (int) $modelYear,
+                'manufacturer' => $manufacturer,
+                'model' => $model,
+            ], $request->only(['modelYear', 'manufacturer', 'model']))
+        ));
 
         return new VehicleCollectionResource($vehicles);
     }
