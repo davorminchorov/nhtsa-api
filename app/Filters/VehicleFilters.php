@@ -33,28 +33,60 @@ class VehicleFilters
     {
         $vehicles = $this->vehicleRepository->getVehicles($filters);
 
-        if ($withRating) {
+        return $withRating ? $this->getVehiclesWithCrashRating($vehicles) : $vehicles;
+    }
 
-            if (!array_get(array_first($vehicles->get('Results')), 'VehicleDescription')) {
-                return $vehicles;
-            }
+    /**
+     * Get the crash rating for each vehicle and include it in the results.
+     *
+     * @param $vehicles
+     * @return mixed
+     */
+    private function getVehiclesWithCrashRating($vehicles) : Collection
+    {
+        return $this->vehicleDescriptionIsMissing($vehicles) ? $vehicles : $this->getCrashRatingForEachVehicle($vehicles);
+    }
 
-            $vehiclesCollection = collect($vehicles->get('Results'));
+    /**
+     * Check if the vehicle description is missing from the results.
+     *
+     * @param $vehicles
+     * @return bool
+     */
+    private function vehicleDescriptionIsMissing($vehicles): bool
+    {
+        return !array_get(array_first($vehicles->get('Results')), 'VehicleDescription');
+    }
 
-            $crashRatings = $vehiclesCollection->map(function ($vehicle) {
-                $vehicle = $this->vehicleRepository->findById($vehicle['VehicleId']);
+    /**
+     * Get the crash rating for each vehicle ID.
+     *
+     * @param $vehicles
+     * @return mixed
+     */
+    private function getCrashRatingForEachVehicle(Collection $vehicles) : Collection
+    {
+        $crashRatings = collect($vehicles->get('Results'))->map(function ($vehicle) {
+            $vehicle = $this->vehicleRepository->findById(array_get($vehicle, 'VehicleId'));
 
-                return [
-                    'CrashRating' => array_get(array_first($vehicle->get('Results')), 'OverallRating')
-                ];
-            })->all();
+            return [
+                'CrashRating' => $this->getOverallRatingForVehicle($vehicle)
+            ];
+        })->all();
 
-            return $vehicles->merge([
-                'CrashRatings' => $crashRatings
-            ]);
+        return $vehicles->merge([
+            'CrashRatings' => $crashRatings
+        ]);
+    }
 
-        }
-
-        return $vehicles;
+    /**
+     * Gets the overall rating value from the vehicle data.
+     *
+     * @param $vehicle
+     * @return mixed
+     */
+    function getOverallRatingForVehicle($vehicle): string
+    {
+        return array_get(array_first($vehicle->get('Results')), 'OverallRating');
     }
 }
