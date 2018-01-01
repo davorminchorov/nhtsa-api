@@ -41,7 +41,7 @@ Server Requirements:
 - [Composer](https://getcomposer.org/)
 - [Git](https://git-scm.com/)
 
-## Using Docker
+### Using Docker
 
 This project has a docker development environment ready which you can easily set up the project on your local machine by installing [Docker Community Edition](https://docs.docker.com/engine/installation/) and [Docker Compose](https://docs.docker.com/compose/install/) for the operating system you are using.
 
@@ -119,7 +119,7 @@ Open the project in your browser by going to:
 http://localhost:8080/
 ```
 
-## Without Docker
+### Without Docker
 
 After installing everything listed from the `Server Requirements` section continue following the instructions below.
 
@@ -159,4 +159,30 @@ Open the project in your browser by going to:
 
 ```
 http://localhost:8080/
+```
+
+## Testing
+
+This project includes a few feature tests.
+
+### With Docker
+
+To run the tests, run the following command from within the PHP-FPM container:
+
+```
+./vendor/bin/phpunit
+```
+
+### Without Docker
+
+To run the tests, run one of the following commands within the project directory depending on the terminal or operating system you are using:
+
+```
+phpunit
+or
+./vendor/bin/phpunit
+or
+./vendor/bin/phpunit.bat
+or
+./phpunit.bat
 ```
