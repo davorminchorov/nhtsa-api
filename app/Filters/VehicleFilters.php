@@ -29,15 +29,16 @@ class VehicleFilters
      *
      * @return Collection
      */
-    public function getVehicles(Collection $filters, bool $withRating = false) : Collection
+    public function getVehicles(Collection $filters, bool $withRating = false): Collection
     {
         $vehicles = $this->vehicleRepository->getVehicles($filters);
 
         if ($withRating) {
 
-            if (! array_get(array_first($vehicles->get('Results')), 'VehicleDescription')) {
+            if (!array_get(array_first($vehicles->get('Results')), 'VehicleDescription')) {
                 return $vehicles;
             }
+
             $vehiclesCollection = collect($vehicles->get('Results'));
 
             $crashRatings = $vehiclesCollection->map(function ($vehicle) {

@@ -13,7 +13,7 @@ interface VehicleRepository
      *
      * @return Collection
      */
-    public function getVehicles(Collection $filters) : Collection;
+    public function getVehicles(Collection $filters): Collection;
 
     /**
      * Find a vehicle by a specific vehicle ID.
@@ -22,5 +22,5 @@ interface VehicleRepository
      *
      * @return Collection
      */
-    public function findById(int $id) : Collection;
+    public function findById(int $id): Collection;
 }

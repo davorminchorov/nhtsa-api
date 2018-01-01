@@ -48,5 +48,6 @@ class GuzzleVehicleRepository implements VehicleRepository
     {
         $vehicle = $this->guzzleClient->get("https://one.nhtsa.gov/webapi/api/SafetyRatings/VehicleId/{$id}?format=json");
 
-        return collect(json_decode($vehicle->getBody(), true));    }
+        return collect(json_decode($vehicle->getBody(), true));
+    }
 }

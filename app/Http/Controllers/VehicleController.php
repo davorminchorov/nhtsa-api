@@ -43,7 +43,7 @@ class VehicleController extends Controller
     {
         $vehicles = $this->vehicleFilters->getVehicles(collect(
             array_merge([
-                'modelYear' => (int) $modelYear,
+                'modelYear' => (int)$modelYear,
                 'manufacturer' => $manufacturer,
                 'model' => $model,
             ], $request->only(['modelYear', 'manufacturer', 'model']))

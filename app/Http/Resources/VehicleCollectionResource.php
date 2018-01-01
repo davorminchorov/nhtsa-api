@@ -9,12 +9,12 @@ class VehicleCollectionResource extends ResourceCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
-       if (! $this->get('Count') || ! array_get(array_first($this->get('Results')), 'VehicleDescription')) {
+        if (!$this->get('Count') || !array_get(array_first($this->get('Results')), 'VehicleDescription')) {
             return [
                 'Count' => 0,
                 'Results' => [],
